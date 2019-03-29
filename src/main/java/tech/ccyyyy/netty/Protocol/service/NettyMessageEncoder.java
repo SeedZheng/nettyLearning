@@ -2,10 +2,14 @@ package tech.ccyyyy.netty.Protocol.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import tech.ccyyyy.netty.Protocol.model.NettyMessage;
+import tech.ccyyyy.netty.Protocol.utils.MarshallingEncoder;
 
 /**
  * @author zcy
@@ -13,20 +17,67 @@ import tech.ccyyyy.netty.Protocol.model.NettyMessage;
 */
 public final class NettyMessageEncoder extends MessageToMessageEncoder<NettyMessage> {
 	
-	//MarshallingEncoder marshallingEncoder;
+	MarshallingEncoder marshallingEncoder;
 	
-
 	public NettyMessageEncoder() throws IOException {
-		//this.marshallingEncoder=new MarshallingEncoder();
+		this.marshallingEncoder=new MarshallingEncoder();
 	}
 
 
-
-
-
 	@Override
-	protected void encode(ChannelHandlerContext arg0, NettyMessage arg1, List<Object> arg2) throws Exception {
-		// TODO Auto-generated method stub
+	protected void encode(ChannelHandlerContext ctx, NettyMessage msg, List<Object> out) throws Exception {
+		if(msg==null || msg.getHeader()==null) {
+			throw new Exception("The encode message is null");
+		}
+		ByteBuf sendBuf=Unpooled.buffer();
+		sendBuf.writeInt(msg.getHeader().getCrcCode());
+		sendBuf.writeInt(msg.getHeader().getLength());
+		sendBuf.writeLong(msg.getHeader().getSessionId());
+		sendBuf.writeByte(msg.getHeader().getType());
+		sendBuf.writeByte(msg.getHeader().getPriority());
+		sendBuf.writeInt(msg.getHeader().getAttachment().size());
+		
+		String key;
+		byte[] keyArray;
+		Object value;
+		for(Map.Entry<String, Object> param:msg.getHeader().getAttachment().entrySet()) {
+			key=param.getKey();
+			keyArray=key.getBytes("UTF-8");
+			sendBuf.writeInt(keyArray.length);
+			value=param.getValue();
+			marshallingEncoder.encode(value, sendBuf);
+		}
+		key=null;
+		keyArray=null;
+		value=null;
+		if(null!=msg.getBody()) {
+			marshallingEncoder.encode(msg.getBody(), sendBuf);
+		}else {
+			sendBuf.writeInt(0);
+			sendBuf.setInt(4, sendBuf.readableBytes());
+		}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		
+		
 	}
 
 }
