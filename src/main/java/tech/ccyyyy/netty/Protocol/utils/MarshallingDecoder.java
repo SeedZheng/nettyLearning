@@ -30,11 +30,10 @@ public class MarshallingDecoder {
 			Object object=unmarshaller.readObject();
 			unmarshaller.finish();
 			in.readerIndex(in.readerIndex()+ObjectSize);
+			return object;
 		} finally {
 			unmarshaller.close();
 		}
-		
-		return null;
 	}
 	
 	
