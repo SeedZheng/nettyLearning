@@ -8,17 +8,18 @@ import tech.ccyyyy.netty.Protocol.service.NettyMessageEncoder;
 
 /**
  * @author zcy
- * @date 2019年3月30日 下午2:24:00
+ * @date 2019年3月30日 下午2:49:14
 */
-public class ClientChannelHandler extends ChannelInitializer<SocketChannel> {
+public class ServerChannelHandler extends ChannelInitializer<SocketChannel>{
 
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ch.pipeline().addLast(new NettyMessageDecoder(1024*1024, 4, 4));
 		ch.pipeline().addLast("MessageEncoder",new NettyMessageEncoder());
 		//ch.pipeline().addLast("readTimeOutHandler", new ReadTimeoutHandler(50));
-		ch.pipeline().addLast("LoginAuthHandler", new LoginAuthReqHandler());
-		ch.pipeline().addLast("HeartBeatHandler", new HeartBeatReqHandler());
+		ch.pipeline().addLast("LoginAuthHandler", new LoginAuthRespHandler());
+		ch.pipeline().addLast("HeartBeatHandler", new HeartBeatRespHandler());
+		
 	}
 
 }

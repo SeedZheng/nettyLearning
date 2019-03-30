@@ -41,10 +41,12 @@ public class NettyClient {
 					new InetSocketAddress(host, port),
 					new InetSocketAddress(NettyConstant.LOCAL_IP,NettyConstant.LOCAL_PORT)).sync();
 			future.channel().closeFuture().sync();
-		} finally {
+		} catch (Exception e) {
+			e.printStackTrace();
+		
+			System.out.println("尝试重连");
 			//释放资源,重连
 			executor.execute(new Runnable() {
-				
 				@Override
 				public void run() {
 					try {
@@ -52,7 +54,7 @@ public class NettyClient {
 						//重连
 						connect(NettyConstant.REMOTE_PORT, NettyConstant.REMOTE_IP);
 					} catch (Exception e) {
-						// TODO: handle exception
+						e.printStackTrace();
 					}
 					
 				}
