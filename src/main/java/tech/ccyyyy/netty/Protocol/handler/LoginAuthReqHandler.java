@@ -20,12 +20,12 @@ public class LoginAuthReqHandler extends ChannelHandlerAdapter{
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		NettyMessage message=new NettyMessage();
+		NettyMessage message=(NettyMessage)msg;
 		//如果是握手应答消息，需要判断是否认证成功
-		if(message.getHeader().getType()==MessageType.HEARTBEAT_RESP.value) {
+		if(null!=message.getHeader() && MessageType.LOGIN_RESP.value==message.getHeader().getType()) {
 			byte loginResult=(byte) message.getBody();
 			if(loginResult!=(byte)0) {
-				//握手失败，关闭连接
+				//握手失败，关闭连接x
 				ctx.close();
 			}
 			else {

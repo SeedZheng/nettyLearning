@@ -56,8 +56,8 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
 			key=null;
 			header.setAttachment(attach);
 		}
-		if(in.readableBytes()>4) {
-			message.setBody(marshallingDecoder.decode(in));
+		if(frame.readableBytes()>4) {
+			message.setBody(marshallingDecoder.decode(frame));
 		}
 		message.setHeader(header);
 		
