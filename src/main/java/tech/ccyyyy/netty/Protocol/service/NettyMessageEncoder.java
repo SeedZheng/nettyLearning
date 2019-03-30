@@ -36,6 +36,7 @@ public final class NettyMessageEncoder extends MessageToByteEncoder<NettyMessage
 		sendBuf.writeByte(msg.getHeader().getType());
 		sendBuf.writeByte(msg.getHeader().getPriority());
 		sendBuf.writeInt(msg.getHeader().getAttachment().size());
+	
 		
 		String key;
 		byte[] keyArray;
@@ -46,7 +47,7 @@ public final class NettyMessageEncoder extends MessageToByteEncoder<NettyMessage
 			sendBuf.writeInt(keyArray.length);
 			sendBuf.writeBytes(keyArray);
 			value=param.getValue();
-			//marshallingEncoder.encode(value, sendBuf);
+			marshallingEncoder.encode(value, sendBuf);
 		}
 		//for gc
 		key=null;
@@ -57,30 +58,9 @@ public final class NettyMessageEncoder extends MessageToByteEncoder<NettyMessage
 		}else {
 			sendBuf.writeInt(0);
 			// 之前写了crcCode 4bytes，除去crcCode和length 8bytes即为更新之后的字节
-			sendBuf.setInt(4, sendBuf.readableBytes() - 8);
+			//sendBuf.setInt(4, sendBuf.readableBytes());
 		}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		
-		
+		sendBuf.setInt(4, sendBuf.readableBytes()-8);
 	}
 
 }

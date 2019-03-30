@@ -39,7 +39,7 @@ public class LoginAuthRespHandler extends ChannelHandlerAdapter {
 						break;
 					}
 				}
-				loginResp=isOk?buildResponse((byte)0):buildResponse((byte) -1);
+				loginResp=isOk?buildResponse((byte)1):buildResponse((byte) -1);
 				if(isOk) {
 					nodeCheck.put(nodeIndex, true);
 				}

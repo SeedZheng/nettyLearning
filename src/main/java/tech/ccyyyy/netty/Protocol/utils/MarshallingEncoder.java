@@ -39,9 +39,6 @@ public class MarshallingEncoder {
 			marshaller.close();
 		}
 		
-		
-		
 	}
-
 
 }

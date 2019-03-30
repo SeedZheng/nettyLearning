@@ -32,13 +32,14 @@ public class NettyMessageDecoder extends LengthFieldBasedFrameDecoder {
 		}
 		NettyMessage message=new NettyMessage();
 		Header header=new Header();
-		header.setCrcCode(in.readInt());
-		header.setLength(in.readInt());
-		header.setSessionId(in.readLong());
-		header.setType(in.readByte());
-		header.setPriority(in.readByte());
+		header.setCrcCode(frame.readInt());
+		header.setLength(frame.readInt());
+		header.setSessionId(frame.readLong());
+		header.setType(frame.readByte());
+		header.setPriority(frame.readByte());
 		
-		int size=in.readInt();
+		//附件
+		int size=frame.readInt();
 		if(size>0) {
 			Map<String, Object> attach=new HashMap<>(size);
 			int keySize=0;
