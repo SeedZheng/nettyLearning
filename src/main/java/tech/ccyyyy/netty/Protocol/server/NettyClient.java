@@ -38,8 +38,7 @@ public class NettyClient {
 				.handler(new ClientChannelHandler());
 			//异步连接
 			ChannelFuture future=bootstrap.connect(
-					new InetSocketAddress(host, port),
-					new InetSocketAddress(NettyConstant.LOCAL_IP,NettyConstant.LOCAL_PORT)).sync();
+					new InetSocketAddress(host, port)).sync();
 			future.channel().closeFuture().sync();
 		} catch (Exception e) {
 			e.printStackTrace();

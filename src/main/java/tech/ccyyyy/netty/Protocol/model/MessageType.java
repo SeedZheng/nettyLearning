@@ -11,7 +11,11 @@ public enum MessageType {
  
     //握手请求，应答
     LOGIN_REQ((byte) 3),
-    LOGIN_RESP((byte) 4);
+    LOGIN_RESP((byte) 4),
+	
+	//聊天消息
+	CHAT_REQ((byte)7),
+	CHAT_RESP((byte)8);
  
     public byte value;
  

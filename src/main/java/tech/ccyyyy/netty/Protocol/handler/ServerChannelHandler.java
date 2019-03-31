@@ -16,9 +16,9 @@ public class ServerChannelHandler extends ChannelInitializer<SocketChannel>{
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ch.pipeline().addLast(new NettyMessageDecoder(1024*1024, 4, 4));
 		ch.pipeline().addLast("MessageEncoder",new NettyMessageEncoder());
-		ch.pipeline().addLast("readTimeOutHandler", new ReadTimeoutHandler(50));
+		//ch.pipeline().addLast("readTimeOutHandler", new ReadTimeoutHandler(50));
 		ch.pipeline().addLast("LoginAuthHandler", new LoginAuthRespHandler());
-		ch.pipeline().addLast("HeartBeatHandler", new HeartBeatRespHandler());
+		//ch.pipeline().addLast("HeartBeatHandler1", new HeartBeatRespHandler());
 		
 	}
 

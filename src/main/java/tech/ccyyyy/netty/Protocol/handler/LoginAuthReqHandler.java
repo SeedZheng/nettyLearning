@@ -1,7 +1,11 @@
 package tech.ccyyyy.netty.Protocol.handler;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import tech.ccyyyy.netty.Protocol.handler.ChatChannelReqHandler.BuildChatMsgTask;
 import tech.ccyyyy.netty.Protocol.model.Header;
 import tech.ccyyyy.netty.Protocol.model.MessageType;
 import tech.ccyyyy.netty.Protocol.model.NettyMessage;
@@ -11,7 +15,7 @@ import tech.ccyyyy.netty.Protocol.model.NettyMessage;
  * @date 2019年3月29日 下午5:45:20
 */
 public class LoginAuthReqHandler extends ChannelHandlerAdapter{
-
+	
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -29,6 +33,9 @@ public class LoginAuthReqHandler extends ChannelHandlerAdapter{
 				ctx.close();
 			}
 			else {
+				//监听消息
+				ChatChannelReqHandler handler=new ChatChannelReqHandler();
+				handler.createChatMessage(ctx);
 				System.out.println("Login is ok:"+message);
 				ctx.fireChannelRead(msg);
 			}
