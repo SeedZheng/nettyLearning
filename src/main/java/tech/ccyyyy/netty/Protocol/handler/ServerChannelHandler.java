@@ -18,7 +18,8 @@ public class ServerChannelHandler extends ChannelInitializer<SocketChannel>{
 		ch.pipeline().addLast("MessageEncoder",new NettyMessageEncoder());
 		//ch.pipeline().addLast("readTimeOutHandler", new ReadTimeoutHandler(50));
 		ch.pipeline().addLast("LoginAuthHandler", new LoginAuthRespHandler());
-		//ch.pipeline().addLast("HeartBeatHandler1", new HeartBeatRespHandler());
+		//ch.pipeline().addLast("HeartBeatHandler", new HeartBeatRespHandler());
+		ch.pipeline().addLast("ChatChannelRespHandler", new ChatChannelRespHandler());
 		
 	}
 

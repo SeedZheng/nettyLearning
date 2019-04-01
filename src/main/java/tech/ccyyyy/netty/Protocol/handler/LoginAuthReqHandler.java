@@ -37,7 +37,7 @@ public class LoginAuthReqHandler extends ChannelHandlerAdapter{
 				ChatChannelReqHandler handler=new ChatChannelReqHandler();
 				handler.createChatMessage(ctx);
 				System.out.println("Login is ok:"+message);
-				ctx.fireChannelRead(msg);
+				ctx.writeAndFlush(msg);
 			}
 		}else {
 			ctx.fireChannelRead(msg);
