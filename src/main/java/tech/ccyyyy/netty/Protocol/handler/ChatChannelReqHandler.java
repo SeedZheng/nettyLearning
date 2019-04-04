@@ -1,14 +1,11 @@
 package tech.ccyyyy.netty.Protocol.handler;
 
-import java.util.Map;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import tech.ccyyyy.netty.Protocol.model.Header;
@@ -17,8 +14,6 @@ import tech.ccyyyy.netty.Protocol.model.NettyMessage;
 
 public class ChatChannelReqHandler extends ChannelHandlerAdapter{
 	
-	//存储在线用户
-	private Map<Long, Channel> onlineUsers=new ConcurrentHashMap<>();
 	//消息缓存
 	private static Queue<String> messageQueue=new ArrayBlockingQueue<>(10);
 	//执行线程
@@ -35,11 +30,15 @@ public class ChatChannelReqHandler extends ChannelHandlerAdapter{
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		NettyMessage message=(NettyMessage)msg;
 		if(null!=message.getHeader() && MessageType.CHAT_RESP.value==message.getHeader().getType()) {
+			//是聊天返回消息，输出
+			System.out.println("客户端收到消息"+message.getBody());
+		}
+		if(null!=message.getHeader() && MessageType.CHAT_REQ.value==message.getHeader().getType()) {
 			//是聊天消息，输出
-			System.out.println(message.getBody());
+			System.out.println("客户端收到消息"+message.getBody());
 		}
 		//返回
-		ctx.writeAndFlush(msg);
+		ctx.fireChannelRead(msg);
 	}
 	
 	@Override

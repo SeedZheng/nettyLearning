@@ -2,7 +2,6 @@ package tech.ccyyyy.netty.Protocol.handler;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.timeout.ReadTimeoutHandler;
 import tech.ccyyyy.netty.Protocol.service.NettyMessageDecoder;
 import tech.ccyyyy.netty.Protocol.service.NettyMessageEncoder;
 

@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import tech.ccyyyy.netty.Protocol.model.ChannelSessionHolder;
 import tech.ccyyyy.netty.Protocol.model.Header;
 import tech.ccyyyy.netty.Protocol.model.MessageType;
 import tech.ccyyyy.netty.Protocol.model.NettyMessage;
@@ -45,6 +46,7 @@ public class LoginAuthRespHandler extends ChannelHandlerAdapter {
 				}
 			}
 			System.out.println("The login response is :"+loginResp+"body ["+loginResp.getBody()+" ]");
+			ChannelSessionHolder.put(ctx.channel().id().toString(), ctx.channel());;
 			ctx.writeAndFlush(loginResp);
 		}else {
 			ctx.fireChannelRead(msg);
